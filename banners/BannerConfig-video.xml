@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Banners xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Banners.xsd">
+	<Pre>
+		<Show>false</Show>
+		<BannerPath>Banners/Pre/</BannerPath>
+		<Top>
+			<ImageType>png</ImageType>
+			<Image>top_banner</Image>
+			<Url>/direct2Cg.php</Url>
+		</Top>
+		<Bottom>
+			<ImageType>png</ImageType>
+			<Image>bottom_banner</Image>
+			<Url>/packs.php</Url>
+		</Bottom>
+	</Pre>
+	<Post>
+		<Show>true</Show>
+		<BannerPath>Banners/Post/</BannerPath>
+		<Top>
+			<ImageType>gif</ImageType>
+			<Image>top_banner</Image>
+			<Url>http://www.clubsamsung.in/159215</Url>
+		</Top>
+		<Bottom>
+			<ImageType>gif</ImageType>
+			<Image>bottom_banner</Image>
+			<Url>http://www.clubsamsung.in/159215</Url>
+		</Bottom>
+	</Post>
+</Banners>
