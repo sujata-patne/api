@@ -1,7 +1,8 @@
 <?php
 	use Store\Curl as Curl;
-	
-	class History {
+use Store\Logger as Logger;
+
+class History {
 		public function __construct(){
 			
 			//include_once "store.controller.php";
@@ -16,6 +17,7 @@
 			$this->app_id = 2;
 
 			$this->curlObj = new Curl\Curl();
+			$this->logger = new Logger\Logger();
 
 
 		}
@@ -45,10 +47,9 @@
 			    ));
               
                $curlResult = $this->curlObj->executePostCurl($url,$data);
-               //  echo "<pre>";
-               //  print_r($curlResult['Content']);
-               // exit();
-               $result = json_decode($curlResult['Content'], true);
+				$this->logger->logCurlAPI($curlResult['Info']);
+
+				$result = json_decode($curlResult['Content'], true);
 			   // echo "<pre>";
 			   // print_r($result);
 			   // exit();
@@ -90,8 +91,9 @@
 
 					$serviceUrl = USERPROFILE;
 					$result = $this->curlObj->executePostCurl($serviceUrl,$data,0);
-				
-					$UserSubscribeInfo = json_decode($result['Content'],true);
+				    $this->logger->logCurlAPI($result['Info']);
+
+				   $UserSubscribeInfo = json_decode($result['Content'],true);
 					//print_r($UserSubscribeInfo);
 				}
 				return array(

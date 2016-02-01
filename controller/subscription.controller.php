@@ -1,27 +1,30 @@
 <?php
 	use Store\Curl as Curl;
+	use Store\Config as Config;
+use Store\Logger as Logger;
+
 	class Subscription {
-		public function __construct(){
-			 // include "../../../site/lib/bootstrap.php";
-			 // include "../../models/store.model.php";	
-			 // include  "../../../site/lib/functions.php";
-			// $this->error = null;
+		public function __construct($operator){
 			$this->curlObj = new Curl\Curl();
-			// $dbCMS = new Db($config['Db']['icon_cms']['User'], $config['Db']['icon_cms']['Password'],$config['Db']['icon_cms']['Name']);
-			// $this->dbCon = $dbCMS->getConnection();
+ 			$this->BGWAPPID = Config\Config::BGWAPPID;
+			$this->operator = $operator;
+			$this->logger = new Logger\Logger();
 		}
 
 		public function getPlanDetails(){
-			// $result_packageids = getSubscriptionPlans($this->dbCon,$packageId);
-			// return $result_packageids;
-			$url = 'http://192.168.1.159:9875/v3/subscription/getSubscriptionDetails';
-			$data = json_encode(array(
-				"storeId" => 2
-			));
-			$result = $this->curlObj->executePostCurl($url,$data);
-			$result = json_decode($result['Content']); 
-			return ($result->message);
-			// print_r($result);
+			$url = "http://192.168.1.159:9875/v3/store/getSubscriptionPricePoints";
+
+			$data = array(
+				"storeId" => $this->BGWAPPID,
+				"operatorId" => $this->operator
+			);
+
+			$result = $this->curlObj->executePostCurl($url,json_encode($data));
+			$this->logger->logCurlAPI($result);
+
+			$pricePoints = json_decode($result['Content'])->message;
+
+			return $pricePoints;
 		}
 	}
 

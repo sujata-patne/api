@@ -42,21 +42,17 @@
             if($USERSTATUS == 'NEWUSER' || $USERSTATUS == 'UNKNOWN' || $USERSTATUS == 'UNSUBSCRIBED' ){
 ?>		
         <td align="center">
-            <a href="../<?=$SUBPARAM?>&f=home&t=<?=$value->contentTypeMD5?>&n=<?=base64_encode($storeObj->getDifferentFileNames($value->cf_url,$PORTLET_CONTENT_TYPE,$PORTLET_RESOLUTION))?>&m=<?=$value->cf_cm_id?>&d=<?=$value->cd_id?>">
+            <a href="../<?=$SUBPARAM.$pricepoint?>&f=home&t=<?=$value->contentTypeMD5?>&n=<?=base64_encode($storeObj->getDifferentFileNames($value->cf_url,$PORTLET_CONTENT_TYPE,$PORTLET_RESOLUTION))?>&m=<?=$value->cf_cm_id?>&d=<?=$value->cd_id?>">
             	<img src="<?=$THUMBURL?><?=$value->cf_cm_id?>_thumb_125_125.jpg" width="125" height="125" alt="" /></a>
             <br />
             <?php echo $value->cm_title; ?>
         </td>
 <?php
-        }else{
-            //If user is subscribed :  clicking on thumbnail for video will download the same in low res.
-?>
-    
+        }else{  //If user is subscribed :  clicking on thumbnail for video will download the same in low res. ?>
          <td align="center">
             <a href="<?=$DOWNLOADPATH?>?t=<?=$value->contentTypeMD5?>&n=<?=$storeObj->getDifferentFileNames($value->cf_url,$PORTLET_CONTENT_TYPE,$PORTLET_RESOLUTION)?>&m=<?=$value->cf_cm_id?>&d=<?=$value->cd_id?>&r=176">
                    <img src="<?=$THUMBURL?><?=$value->cf_cm_id?>_thumb_125_125.jpg" width="125" height="125" alt="" /></a>
             <br/>
-           
             <!-- Links for medium and high res -->
             <a href="<?=$DOWNLOADPATH?>?t=<?=$value->contentTypeMD5?>&n=<?=$storeObj->getDifferentFileNames($value->cf_url,$PORTLET_CONTENT_TYPE,'high')?>&m=<?=$value->cf_cm_id?>&d=<?=$value->cd_id?>&r=360">High</a>
             <a href="<?=$DOWNLOADPATH?>?t=<?=$value->contentTypeMD5?>&n=<?=$storeObj->getDifferentFileNames($value->cf_url,$PORTLET_CONTENT_TYPE,'medium')?>&m=<?=$value->cf_cm_id?>&d=<?=$value->cd_id?>&r=240">Medium</a>
@@ -64,12 +60,9 @@
         <td> 
              <?php  echo $value->cm_title."<br/>"; ?> 
         </td>
- <?php
-            }//else
+ <?php  }//else
             echo "</tr>";
-		} // foreach
-?>
-
+    }  ?>
     <tr >
         <td height="30" colspan="3" align="right">
             <?php    //For hiding more link :
@@ -77,7 +70,7 @@
             //TO CHANGE :: PROMO ID
                 if($USERSTATUS == 'NEWUSER' || $USERSTATUS == 'UNKNOWN' || $USERSTATUS == 'UNSUBSCRIBED' ){
                     if($isMoreContent) { ?>
-                        <a href="../<?= $SUBPARAM ?>&f=home" style="text-decoration:none;">More >></a>
+                        <a href="../<?= $SUBPARAM.$pricepoint ?>&f=home" style="text-decoration:none;">More >></a>
                 <?php  }
                 } else{
                     if($_GET['startFrom'] > 0){        ?>

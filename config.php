@@ -39,6 +39,7 @@ $operator = $user->getOperator();
 $clientIp = $user->getClientIp();
 $msisdn = $user->getMsisdn();
 $pricePoint = $user->getPricePoint();
+$sessionId = $user->getSessionId();
 
 
 $TransId = $user->getTransId();
@@ -50,14 +51,13 @@ $mobileInfo = $user->getMobileInfo();
 $OprSubParam = $user->getOperatorSubscribeParam($operator);
 
  // $mobileDocTD = $user->getLanguage(); //doc type declaration xhtml/html5
-$sessionId = $user->getSessionId();
-$extractParams = $user->getQueryParams();
+ $extractParams = $user->getQueryParams();
 $config = $user->getConfigData();
 //$campaignDetails = $user->getCampaignDetails();
 
 $currentPage = $user->getCurrentPage();
 $hostName = $user->hostName;
-$linkUrl =$user->getLinkUrl();
+$linkUrl = $user->getLinkUrl();
 
 $subParam = $user->getSubParam();
 
@@ -67,7 +67,7 @@ $bannerDetails = $user->getBannerDetails();
 $f = (isset($extractParams['f']))? $extractParams['f']:$currentPage;
 $promo = (isset($extractParams['promo']))? $extractParams['promo']:$promo;
 
-$direct2cg = new Direct2CG\direct2cg($promo, $f);
+$direct2cg = new Direct2CG\direct2cg($promo, $f,$sessionId);
 $image_url = $direct2cg->getCGimages($deviceInfo,$pkgId);
 
 ?>

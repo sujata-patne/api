@@ -38,7 +38,9 @@
 <?php
 	$portletArray = $storeObj->getPortletContent();
 	foreach($portletArray['portletData'] as $key=>$value){
-      	require "portlets/portlet".$value->portletId.".php";
+		$pricepoint = "EventId=".base64_encode($value->pricePoint);
+		$planId = $value->planId;
+		require "portlets/portlet".$value->portletId.".php";
 	}
 
 ?>

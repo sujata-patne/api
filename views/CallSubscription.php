@@ -5,10 +5,8 @@ use Store\Logger as Logger;
 /* IF event id below is uncommented and headers are off the test page of apache is shown . */
 /* If event id is given proper and headers are on the request goes to billing gateway.*/
 require_once '../config.php';
-// require_once '../../preload/Store/logger.class.php';
-
+ $logger = new Logger\Logger();
 $eventId= $_GET['EventId'];
-
 if($userStatus == 'NEWUSER' or $userStatus == 'UNKNOWN' or $userStatus == 'UNSUBSCRIBED' ){
 	// if( !in_array($operator, $config->allowedOperators) ){
 	// 	 header("Location: index.php");
@@ -21,7 +19,7 @@ if($userStatus == 'NEWUSER' or $userStatus == 'UNKNOWN' or $userStatus == 'UNSUB
 			$urlPart = strtok($_SERVER["REQUEST_URI"],'?');
 			$urlPart = substr(strtok($_SERVER["REQUEST_URI"],'?'),0,strrpos($urlPart,"/"));
 
-			$retUrl = $linkUrl.'index.php';				
+			$retUrl = $hostName.$urlPart."/index.php";
 			$ErrorUrl = $hostName.$urlPart.'/error.php';
 			
 			//$image_url = $hostName.'/cgImage/Footer_cg_image640x640.jpg';
@@ -43,11 +41,9 @@ if($userStatus == 'NEWUSER' or $userStatus == 'UNKNOWN' or $userStatus == 'UNSUB
 
 			);
 
-			$billing_gateway = 'http://103.43.2.5/'.$config->operatorData[$operator]['BillingServiceSub'].'?REQUESTTYPE=NEW_SUB&APPCONTID=123&UNITTYPE=SUBSCRIPTION&CPEVENT='.$cpevent.'&MSISDN='.$msisdn.'&OPERATOR='.$operator.'&CMODE='.$OprSubParam['CMODE'].'&UID='.($config::UID).'&PASS='.($config::Paswd).'&TRANSID='.$TransId .'&RETURL='.$retUrl.'&FLRETURL='.$ErrorUrl.'&OTHER1='.$image_url.'&OTHER2='.$hostName.'&TOKENCALL='.$Token;
+			$billing_gateway = 'http://103.43.2.5/'.$config->operatorData[$operator]['BillingServiceSub'].'?REQUESTTYPE=NEW_SUB&APPCONTID=123&UNITTYPE=SUBSCRIPTION&CPEVENT='.$cpevent.'&MSISDN='.$msisdn.'&OPERATOR='.$operator.'&CMODE='.$OprSubParam['CMODE'].'&UID='.($config::UID).'&PASS='.($config::Paswd).'&TRANSID='.$TransId .'&RETURL='.$retUrl.'&FLRETURL='.$ErrorUrl.'&OTHER1='.$image_url.'&OTHER2='.$hostName.$urlPart."/index.php".'&TOKENCALL='.$Token;
+			$logger->logCurlAPI($billing_gateway);
 
-			// $logger = new Logger\Logger($subscribeData);
-			// $logger->logSubscribePack();
-						
 			header("Location: ".$billing_gateway);
 			exit();
 			

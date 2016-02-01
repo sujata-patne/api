@@ -71,15 +71,5 @@
 					return ($var['parentId'] == $contentType);
 				}));
 		}
-			
-		   	// print_r($filteredContent); exit;
-		   	// return $filteredContent;
   	}
-
-		// private function removeBOM($data) {
-		//     if (0 === strpos(bin2hex($data), 'efbbbf')) {
-		//        return substr($data, 3);
-		//     }
-		// }
-	// }
 ?>

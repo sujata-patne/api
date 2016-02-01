@@ -13,16 +13,12 @@
 <?php
 	include_once "../controller/search.controller.php";
 	$searchObj = new Search();
-			
-	//STORE CONFIGS : 
-	// $CURRENT_PORTLETID = 3;
-    // $PORTLET_CONTENT_TYPE = 'Video';
+
     $PORTLET_RESOLUTION = 'low';
     $THUMBNAIL_LIMIT = 2;
 
 	$STOREID = $searchObj->storeId;
 	$MAINPATH = $_SERVER['DOCUMENT_ROOT']."PortletPublish_php";
-	// $DOWNLOADPATH =  $MAINPATH."site/download.php";
 	$DOWNLOADPATH =  "download_cloud.php";
 	$THUMBURL = "http://d85mhbly9q6nd.cloudfront.net/";
 	
@@ -30,25 +26,18 @@
 
 	
 	$USERSTATUS = $searchObj->userStatus;
-	//$USERSTATUS = "SUBSCRIBED";
-
-	 // $USERSTATUS = $storeObj->$userStatus;
 	 
 	$PROMOID = $searchObj->promoId;
 	$LINKURL = $searchObj->linkUrl;
 	$SUBPARAM =$searchObj->subParam;
 	$SEARCHTXT = isset($_GET['search_txt']) ? $_GET['search_txt'] :'';
-	
 
-	// $SEARCHTXT = "a";
 ?>
 	<div style="text-align:center">
-			<img src="../../public/assets/img/d2clogo_320x45.png" />
+			<img src="../assets/img/d2clogo_320x45.png" />
 			<?php require_once "portlets/header.php" ?>
 	</div>
 	<?php
-		// $searchObj->getSearchContent('babe');
-
 		$portletArray_video = $searchObj->getPortletFilteredContent($SEARCHTXT,9);
 		$portletArray_wallpaper = $searchObj->getPortletFilteredContent($SEARCHTXT,8);
 		if(count($portletArray_video) == 0 && count($portletArray_wallpaper) == 0){

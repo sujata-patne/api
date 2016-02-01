@@ -17,6 +17,20 @@ class Curl {
         );
     }
 
+    public function get_headers_from_curl_response($response){
+        $headers = array();
+
+        foreach (explode("\r\n", $response) as $i => $line){
+            if ($i === 0 or $i === 1 or $i === 2){
+                //$headers['http_code'] = $line;
+            }else{
+                list ($key, $value) = explode(': ', $line);
+                $headers[$key] = $value;
+            }
+        }
+        return $headers;
+    }
+
     public function executePostCurl($url, $data, $isJSON = 1){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

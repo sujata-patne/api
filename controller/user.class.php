@@ -65,6 +65,7 @@ class User {
 		//get configured elements
 		$this->config = new Config\Config();
 		$this->curlMethods = new Curl\Curl();
+		$this->logger = new Logger\Logger();
 
 		$this->STOREID 	= Config\Config::STOREID;
 		$this->BGWAPPID = Config\Config::BGWAPPID;
@@ -93,9 +94,9 @@ class User {
 		parse_str($this->queryParameters, $this->extractParamFromQueryParameters);
 
 		$this->setPromoTransactionCookie();
-
 		// Get MSISDN, IMSI, Ip and User Agent
 		 $this->setMsidsn();
+		 $this->setUniqueSessionId();
 		 $this->setIMSI();
 		 $this->setClientIpAddress();
 		 $this->setUserAgent();
@@ -109,7 +110,6 @@ class User {
 
 		// Promo Ids for Interim Page
 		//$this->PromoInterim = $this->config->promoInterim;
-
 		// Get Current page filename
 		$this->setCurrentPage();
 
@@ -125,7 +125,6 @@ class User {
 		  if($this->isAllowed == 'true' ){
 			//get user details
 			//		$this->setUserProfileDetails();
-			
 			$this->setUserDetails();
 			$this->setRefferer();
 			$this->setDeviceDetails();
@@ -146,8 +145,8 @@ class User {
 		$this->price_point = $EventId;
 	}
 	public function getPricePoint(){
-		//$url = "http://192.168.1.159:9875/v3/store/getSubscriptionPricePoints";
-		$url = "http://localhost/apiICON/v3/store/getSubscriptionPricePoints";
+		$url = "http://192.168.1.159:9875/v3/store/getSubscriptionPricePoints";
+		//$url = "http://localhost/apiICON/v3/store/getSubscriptionPricePoints";
 		$data = array(
 			"storeId" => $this->BGWAPPID,
 			"operatorId" => $this->operator
@@ -156,6 +155,8 @@ class User {
 
 		$data = json_encode($data);
 		$result = $this->curlMethods->executePostCurl($url,$data);
+		$this->logger->logCurlAPI($result['Info']);
+
 		$pricePoints = json_decode($result['Content'])->message->subscriptionPricePoints;
 
 		$this->setPricePoint($pricePoints[0]->sp_jed_id);
@@ -318,6 +319,7 @@ class User {
 		$data['user_id'] = $this->userId;
 		$data['bgw_AppID'] = $this->BGWAPPID;
 		$content = $this->curlMethods->executePostCurl(USERPROFILE, $data);
+		$this->logger->logCurlAPI($content['Info']);
 
 		$this->userSubscribeInfo = json_decode($content['Content'], true);
 		//echo "<pre>"; print_r($this->userSubscribeInfo); exit;
@@ -326,6 +328,7 @@ class User {
 	private function setUserDetails(){
 		
 		$extractInfo = $this->getMsisdnDetails();
+		
 		// print_r($extractInfo);
 		// exit;
 		// Set authService Response for log purpose
@@ -338,10 +341,6 @@ class User {
 		if($extractInfo['Response']['user_id'] != 0){
 			
 			$this->userId = $extractInfo['Response']['user_id'];
-			// print_r($this->userId);
-			// print_r($extractInfo['Response']);
-			// exit;
-
 			$this->userStatus = $extractInfo['Response']['user_status'];
 			$this->operator = $extractInfo['Response']['operator'];
 
@@ -352,27 +351,22 @@ class User {
 			}
 		
 			$this->requestFrom = isset($extractInfo['Response']['servReqSource']) ? $extractInfo['Response']['servReqSource'] : self::REQUESTSOURCE;
-				// echo "hi";
-				// $this->userStatus;
-			
+
 			if($this->userStatus != self::NEWUSER && $this->userStatus != self::UNKNOWN && $this->userStatus != self::UNSUBSCRIBED ){
 				$_SESSION['downloadAllowed'] = 'true';	
 			}else{
 				$_SESSION['downloadAllowed'] = 'false';
 			}
-			//get operator and last subscribed pricepoint details
-		
-
+			//get operator and last subscribed pricepoint detail
 			if( $this->userStatus != self::NEWUSER && $this->userStatus != self::UNSUBSCRIBED && $this->userStatus != self::UNKNOWN){
 				// Logic to get current subscribed number price point
-
 				$SubPackData['AppId'] = $this->STOREID;
 				$SubPackData['user_id'] = $this->userId;
-				$content = $this->curlMethods->executePostCurl(S3STATUS, $SubPackData,0);				
+				$content = $this->curlMethods->executePostCurl(S3STATUS, $SubPackData,0);
+				$this->logger->logCurlAPI($content['Info']);
 
 				$outputSubPack = json_decode($content['Content'], true);
-				//echo "<pre>"; print_r($outputSubPack); exit;
-				$this->setPricePoint((string)$outputSubPack['price_point']);
+ 				$this->setPricePoint((string)$outputSubPack['price_point']);
 			}
 		}else{
 			$this->userId = self::UNKNOWN;
@@ -412,6 +406,7 @@ class User {
 		$this->url =  AUTH_SERVICE.'/?AppId='.$this->STOREID.'&MSISDN='.$this->msisdn.'&NET_IP_ADDRESS='.$this->clientIp.'&IMSI='.$this->imsi;
 
 		$content = $this->curlMethods->executeCurl($this->url);
+		//$this->logger->logCurlAPI($content);
 
 		$temp = explode(',', $content['Content']);
 		for($i=0;$i<count($temp);$i++){

@@ -11,7 +11,7 @@
  </head>
  <body style="margin:0"> 
 <div style="text-align:center">
-				<img src="../../public/assets/img/d2clogo_320x45.png" />
+				<img src="../assets/img/d2clogo_320x45.png" />
 </div>
 <?php
 include_once '../config.php';
@@ -82,11 +82,9 @@ if($USERSTATUS == 'NEWUSER' || $USERSTATUS == 'UNKNOWN' || $USERSTATUS == 'UNSUB
 				<tr>
 					<?php
 					    $i = 0;
-					   
 						foreach ( $historyVideo as $key => $value ) {
-							
                       	 	 if(++$i > $THUMBNAIL_LIMIT) break; //For restricting thumbnails.
-							?>
+						?>
 						<td align="center">
 							<!--<img src="<?=$historyVideo[$i]['cm_thumb_url']?>?<?=$timestamp?>"  width="125" height="125" alt="" />-->
 							<img src="<?=$THUMBURL?><?=$value['cm_id']?>_thumb_125_125.jpg" width="125" height="125" alt="" />

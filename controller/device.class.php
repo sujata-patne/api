@@ -32,6 +32,7 @@ class Device {
         $this->config = new Config\Config();
        
         $this->curlMethods = new Curl\Curl();
+        $this->logger = new Logger\Logger();
 
         $this->CookieTag = Config\Config::CookieTag;
         $this->WURFL_API_KEY 	= Config\Config::WURFL_API_KEY;
@@ -85,7 +86,8 @@ class Device {
 
         // echo "<pre>"; print_r($deviceInfo); exit();
         $deviceInfoResponse =  (object)$this->curlMethods->executePostCurl(READ_WURFL_DATA, $deviceInfo,0);
-       
+        //$this->logger->logCurlAPI($deviceInfoResponse['Info']);
+
         // echo "<pre>"; print_r($deviceInfoResponse); exit();
         $this->deviceDetails = json_decode($deviceInfoResponse->Content, true);
         
@@ -94,7 +96,7 @@ class Device {
     }
     private function updateWurlfInfoToDB($deviceInfo){
         $content = $this->curlMethods->executePostCurl(INSERT_WURFL_DATA,$deviceInfo);
-       // echo "content <pre>"; print_r($content);
+        $this->logger->logCurlAPI($content['Info']);
         return $content;
     }
     private function getWurlInfoFromServer(){
@@ -223,7 +225,7 @@ class Device {
 
             $Imsicontent = $this->curlMethods->executePostCurl(IMSI_CIR_DATA, $imsiData);
 
-            // $this->Logger->logIMSICircle($Imsicontent);
+            $this->logger->logIMSICircle($Imsicontent);
 
             if( stripos($Imsicontent['Content'], 'IMSI-Circle record added') !== false or stripos($Imsicontent['Content'], 'IMSI-Circle updated') !== false ){
                 setcookie($this->config['CookieTag'].'_IMSI', $this->imsi, strtotime('today 23:59'), '/');

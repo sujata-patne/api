@@ -1,0 +1,135 @@
+
+array (
+  'Content' => '<HTML><HEAD>
+<meta http-equiv=pragma content=nocache>
+<META HTTP-EQUIV=Expires CONTENT=-1>
+<SCRIPT>
+	location.href="http://192.168.1.1:8090/httpclient.html"
+</SCRIPT>
+</HEAD><BODY>
+</BODY>
+</HTML>
+',
+  'Info' => 
+  array (
+    'url' => 'http://wakau.in/authService/?AppId=jet&MSISDN=919637536352&NET_IP_ADDRESS=10.39.2.5&IMSI=404220003060554',
+    'content_type' => 'text/html',
+    'http_code' => 200,
+    'header_size' => 74,
+    'request_size' => 135,
+    'filetime' => -1,
+    'ssl_verify_result' => 0,
+    'redirect_count' => 0,
+    'total_time' => 0.01499999999999999944488848768742172978818416595458984375,
+    'namelookup_time' => 0,
+    'connect_time' => 0,
+    'pretransfer_time' => 0,
+    'size_upload' => 0,
+    'size_download' => 197,
+    'speed_download' => 13133,
+    'speed_upload' => 0,
+    'download_content_length' => -1,
+    'upload_content_length' => 0,
+    'starttransfer_time' => 0.01499999999999999944488848768742172978818416595458984375,
+    'redirect_time' => 0,
+    'redirect_url' => '',
+    'primary_ip' => '103.43.2.9',
+    'certinfo' => 
+    array (
+    ),
+    'primary_port' => 80,
+    'local_ip' => '192.168.3.153',
+    'local_port' => 55939,
+  ),
+  'Error' => '',
+)
+array (
+  'url' => 'http://192.168.1.159:9875/v3/store/getSubscriptionPricePoints',
+  'content_type' => 'text/html; charset=UTF-8',
+  'http_code' => 200,
+  'header_size' => 180,
+  'request_size' => 181,
+  'filetime' => -1,
+  'ssl_verify_result' => 0,
+  'redirect_count' => 0,
+  'total_time' => 0.0309999999999999997779553950749686919152736663818359375,
+  'namelookup_time' => 0,
+  'connect_time' => 0,
+  'pretransfer_time' => 0,
+  'size_upload' => 36,
+  'size_download' => 100,
+  'speed_download' => 3225,
+  'speed_upload' => 1161,
+  'download_content_length' => 100,
+  'upload_content_length' => 36,
+  'starttransfer_time' => 0.0309999999999999997779553950749686919152736663818359375,
+  'redirect_time' => 0,
+  'redirect_url' => '',
+  'primary_ip' => '192.168.1.159',
+  'certinfo' => 
+  array (
+  ),
+  'primary_port' => 9875,
+  'local_ip' => '192.168.3.153',
+  'local_port' => 55941,
+)
+array (
+  'url' => 'http://192.168.1.159:9875/v3/store/getCGImagesByStoreId',
+  'content_type' => 'text/html; charset=UTF-8',
+  'http_code' => 200,
+  'header_size' => 180,
+  'request_size' => 152,
+  'filetime' => -1,
+  'ssl_verify_result' => 0,
+  'redirect_count' => 0,
+  'total_time' => 0.01499999999999999944488848768742172978818416595458984375,
+  'namelookup_time' => 0,
+  'connect_time' => 0,
+  'pretransfer_time' => 0,
+  'size_upload' => 13,
+  'size_download' => 403,
+  'speed_download' => 26866,
+  'speed_upload' => 866,
+  'download_content_length' => 403,
+  'upload_content_length' => 13,
+  'starttransfer_time' => 0.01499999999999999944488848768742172978818416595458984375,
+  'redirect_time' => 0,
+  'redirect_url' => '',
+  'primary_ip' => '192.168.1.159',
+  'certinfo' => 
+  array (
+  ),
+  'primary_port' => 9875,
+  'local_ip' => '192.168.3.153',
+  'local_port' => 55942,
+)
+array (
+  'url' => 'http://192.168.1.159:9875/v3/page/getPageDetails',
+  'content_type' => 'text/html; charset=UTF-8',
+  'http_code' => 200,
+  'header_size' => 187,
+  'request_size' => 204,
+  'filetime' => -1,
+  'ssl_verify_result' => 0,
+  'redirect_count' => 0,
+  'total_time' => 1.782000000000000028421709430404007434844970703125,
+  'namelookup_time' => 0,
+  'connect_time' => 0.01600000000000000033306690738754696212708950042724609375,
+  'pretransfer_time' => 0.01600000000000000033306690738754696212708950042724609375,
+  'size_upload' => 72,
+  'size_download' => 628249,
+  'speed_download' => 352552,
+  'speed_upload' => 40,
+  'download_content_length' => -1,
+  'upload_content_length' => 72,
+  'starttransfer_time' => 1.7039999999999999591437926937942393124103546142578125,
+  'redirect_time' => 0,
+  'redirect_url' => '',
+  'primary_ip' => '192.168.1.159',
+  'certinfo' => 
+  array (
+  ),
+  'primary_port' => 9875,
+  'local_ip' => '192.168.3.153',
+  'local_port' => 55943,
+)

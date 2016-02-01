@@ -26,11 +26,8 @@ if($userStatus != 'NEWUSER' and $userStatus != 'UNKNOWN' and $userStatus != 'UNS
     $output = $curlObj->executePostCurl($serviceUrl,$data,0);
     
 	$output = json_decode($output['Content'], true);
-	
- 	
 
-
-	if(!empty($output)){		
+	if(!empty($output)){
 		if($output['status'] != 'UNSUBSCRIBED'){
 			$opr = $output['operator'];
 			$cpevent = $output['price_point'];		
@@ -62,14 +59,9 @@ if($userStatus != 'NEWUSER' and $userStatus != 'UNKNOWN' and $userStatus != 'UNS
 				}
 				
 				$pString = rtrim($pString, '&');
-				
-				// print_r($current_url);
-				// echo "<br/>";
-			
+
 				$u=$curlObj->executePostCurlHeader($current_url,1,$pString);
 
-
-			
 				$Data = array(
 					'Response' => $output,
 					'MSISDN' => $msisdn,
@@ -80,13 +72,10 @@ if($userStatus != 'NEWUSER' and $userStatus != 'UNKNOWN' and $userStatus != 'UNS
 					'Fail Return url' => $ErrorUrl,
 					'CMODE'=> $cmode
 		        );
-		        
-					//log files to be theres										
-				
 
-				$headers = get_headers_from_curl_response($u['Content']);
+				$headers = $curlObj->get_headers_from_curl_response($u['Content']);
 
-				// print_r($headers);
+				// print_r($headers); exit;
 				
 			}
 			//include 'header.php';

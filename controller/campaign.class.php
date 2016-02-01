@@ -2,6 +2,7 @@
 namespace Store\Campaign;
 use Store\Config as Config;
 use Store\Curl as Curl;
+use Store\Logger as Logger;
 
 class Campaign {
     private $PromoBannerId;
@@ -26,6 +27,7 @@ class Campaign {
 
         $this->config = new Config\Config();
         $this->curlMethods = new Curl\Curl();
+        $this->logger = new Logger\Logger();
 
         $promoParameters = $data['promoParameters'];
         // echo "<pre>"; print_r($data);
@@ -136,19 +138,14 @@ class Campaign {
     }
     public function getFullCampaignDetails($promoId){
         if(ctype_digit($promoId)){
-            //Open a new connection to the MySQL server
-            /*$dbCampaign = new Db($this->dbUserCampaign, $this->dbPswdCampaign, $this->config['Db']['campaign']['Name']);
-            $dbCon = $dbCampaign->getConnection();
-
-            $query = "SELECT * FROM cm_promo_detail as A, cm_promo_cg_details as B, cm_ad_client as C where A.cp_banner_id = B.cg_promo_id and A.cp_ad_client_id = C.ca_client_id and A.cp_promo_id = '".$this->PromoBannerId."'";
-
-            $resultCampaign = $dbCampaign->execute($dbCon, $query);*/
             $url = "http://192.168.1.159:9875/v3/campaign/getCampaignDetailsByPromoId";
             $data = array(
                 "promoId" => $promoId
             );
             $data = json_encode($data);
             $resultCampaign = $this->curlMethods->executePostCurl($url,$data);
+            $this->logger->logCurlAPI($resultCampaign['Info']);
+
             $campaignDetails = json_decode($resultCampaign['Content'])->message->campaignDetails;
 
             if( count($campaignDetails) > 0 ){
@@ -164,11 +161,6 @@ class Campaign {
     private function getCampaignDetails($promoId,$storeId){
         if( ctype_digit($promoId) ){
 
-            /*$dbCampaign = new Db($this->dbUserCampaign, $this->dbPswdCampaign, $this->config['Db']['campaign']['Name']);
-            $dbCon = $dbCampaign->getConnection();
-            $queryCampaign = "SELECT * FROM cm_promo_detail as A, cm_promo_cg_details as B, cm_ad_client as C where A.cp_banner_id = B.cg_promo_id and A.cp_ad_client_id = C.ca_client_id and A.cp_app_id = '.$storeId.' and A.cp_promo_id = '".$promoId."'";
-
-            $resultCampaign = $dbCampaign->execute($dbCon, $queryCampaign);*/
             $url = "http://192.168.1.159:9875/v3/campaign/getCampaignDetailsByStore";
             $data = array(
                 "promoId" => $promoId,
@@ -176,6 +168,8 @@ class Campaign {
             );
             $data = json_encode($data);
             $resultCampaign = $this->curlMethods->executePostCurl($url,$data);
+            $this->logger->logCurlAPI($resultCampaign['Info']);
+
             $row = json_decode($resultCampaign['Content'])->message->campaignDetails;
 
 

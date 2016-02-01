@@ -10,7 +10,7 @@ namespace Store\Logger;
 
 
 class Logger {
-    public function __construct($userData) {
+    public function __construct($userData = array()) {
         $this->logDate = $this->udate('Y-m-d H:i:s.u');
 
         if (isset($userData['imsi'])) {
@@ -238,6 +238,13 @@ class Logger {
 
     }
 
+    public function logCurlAPI($extractParams){
+        $logFile = LOGS.'Curl_'.date('d-m-Y-H').'.log';
+        $fs = fopen($logFile, 'a') or die("can't open file");
+        fwrite($fs, "\r\n");
+        file_put_contents($logFile, var_export($extractParams, true),FILE_APPEND);
+
+    }
     public function logSubscription($extractParams){
         $logFile = LOGS.'Subscribe_'.date('d-m-Y-H').'.log';
 

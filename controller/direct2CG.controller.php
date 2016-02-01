@@ -10,14 +10,16 @@ use Store\Curl as Curl;
 	 public $campaignDetails;
 	 private $promo;
 	 private $currentPage;
+	 private $sesionId;
 
-	 public function __construct($promo,$currentPage){
+	 public function __construct($promo,$currentPage, $sesionId){
 		$this->promo = $promo;
 		$this->currentPage = $currentPage;
 		$this->curlMethods = new Curl\Curl();
 		$this->user = new Curl\Curl();
 		$this->hostName = "http://".$_SERVER['HTTP_HOST'];
-
+		$this->sesionId = $sesionId;
+		$this->logger = new Logger\Logger();
 	}
 
 	public function logSubscription($logData){
@@ -112,6 +114,8 @@ use Store\Curl as Curl;
 		$Token = $sessionId.'-'.$BGWBanner['substore'].'-'.$BGWBanner['promo_id'].'-'.$BGWBanner['banner_id'];
 
 		$campaignContent = $this->curlMethods->executePostCurlHeader(ADD_BG_BANNER,$bgwHeader,$BGWBanner);
+		$this->logger->logCurlAPI($campaignContent['Info']);
+
 		$subscribeData = array(
 			'bannerId' => $BGWBanner['banner_id'],
 			'transactionId' => $TransId,
@@ -125,31 +129,35 @@ use Store\Curl as Curl;
 
 	}
 	public function getUrlFromParams(){
-		// $urlPart = strtok($_SERVER["REQUEST_URI"],'?');
-		// $urlPart = substr(strtok($_SERVER["REQUEST_URI"],'?'),0,strrpos($urlPart,"/"));
 
-
-		// if(stripos($hostName, "http://") !== false){
-  //  			$fUrl = $hostName.$urlPart.'/error.php';   
- 	// 	}else{
-  //  			$fUrl = 'http://'.$hostName.$urlPart.'/error.php';   
-  // 		}
+		$urlPart = strtok($_SERVER["REQUEST_URI"],'?');
+		$urlPart = substr($urlPart,0,strrpos($urlPart,"/"));
+		/*if(stripos($this->hostName, "http://") !== false){
+			$fUrl = $this->hostName.$urlPart.'/error.php';
+ 	 	}else{
+   			$fUrl = 'http://'.$this->hostName.$urlPart.'/error.php';
+   		}*/
 
 		if($this->currentPage == 'home'){
-			//$retUrl = 'http://localhost:9090/PortletPublish_svn2/store/views/store.php?pg=home.php';
-			$retUrl = $this->hostName.'/views/index.php';
+  			$retUrl = $this->hostName.$urlPart."/index.php";
 		}elseif($this->currentPage  == 'video'){
-			$retUrl = 'http://dailymagic.in/video.php';
+			//$retUrl = 'http://dailymagic.in/video.php';
+			$retUrl = $this->hostName.$urlPart."/index.php";
 		}elseif($this->currentPage  == 'photos'){
-			$retUrl = 'http://dailymagic.in/photos.php';
+			//$retUrl = 'http://dailymagic.in/photos.php';
+			$retUrl = $this->hostName.$urlPart."/index.php";
 		}elseif($this->currentPage  == 'search'){
-			$retUrl = 'http://dailymagic.in/search.php';
+			//$retUrl = 'http://dailymagic.in/search.php';
+			$retUrl = $this->hostName.$urlPart."/search.php";
 		}elseif($this->currentPage  == 'account'){
-			$retUrl = 'http://dailymagic.in/myaccount.php';
+			//$retUrl = 'http://dailymagic.in/myaccount.php';
+			$retUrl = $this->hostName.$urlPart."/myaccount.php";
 		}elseif($this->currentPage  == 'bestseller'){
-			$retUrl = 'http://dailymagic.in/bestseller.php';
+			//$retUrl = 'http://dailymagic.in/bestseller.php';
+			$retUrl = $this->hostName.$urlPart."/bestseller.php";
 		}else{
-			$retUrl = 'http://dailymagic.in/success.php';
+			//$retUrl = 'http://dailymagic.in/success.php';
+			$retUrl = $this->hostName.$urlPart."/success.php";
 		}
 		return $retUrl;
     }
@@ -176,24 +184,27 @@ use Store\Curl as Curl;
 			);
 			$data = json_encode($data);
 			$result_storeCGImages = $this->curlMethods->executePostCurl($url, $data);
+			$this->logger->logCurlAPI($result_storeCGImages['Info']);
+
 			$storeCGImages = json_decode($result_storeCGImages['Content'])->message->storeCGImages;
 
 			$cgImages = array();
 			foreach ($storeCGImages as $key => $value) {
 				$filesize = explode('X',$value->pci_image_size);
 				$files = explode('/',$value->cg_images);
+
 				$fileName = $this->hostName.'/cgImage/iconCGImages/'.$files[2];
+				//$fileName = 'http://114.143.181.228:90/cgImage/iconCGImages/'.$files[2];
 				//if($deviceInfo['Width'] < $filesize[0] && $deviceInfo['Height'] < $filesize[1] ){
 					array_push($cgImages, $fileName);
 				//}
 			}
-
 			$rand_keys = array_rand($storeCGImages);
 			$image_url = $cgImages[$rand_keys];
 		}
 		return $image_url;
 	}
-    public function getCGimages1(){
+    public function getCGimages123(){
     	if( ctype_digit($this->promo) ){
 			$cgImages = array(
 				'http://dailymagic.in/cgImage/01/001_320x480_JSS.jpg',
